@@ -26,7 +26,7 @@ function onSubmit(e) {
       };
   
       // Convert the object to a string and store it
-      localStorage.setItem('users', JSON.stringify(userData));
+      localStorage.setItem(emailInput.value, JSON.stringify(userData));
   
   
       // Create a new list item with user details
