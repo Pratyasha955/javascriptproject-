@@ -3,9 +3,13 @@ const myForm = document.querySelector('#my-form');
 const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
 const phoneInput = document.querySelector('#phone');
+const msg = document.querySelector('.msg');
+const userList = document.querySelector('#users');
 
 // Listen for form submit
 myForm.addEventListener('submit', onSubmit);
+// Delete event
+userList.addEventListener('click', removeItem);
 
 function onSubmit(e) {
     e.preventDefault();
@@ -33,7 +37,10 @@ function onSubmit(e) {
       const li = document.createElement('li');
       li.appendChild(document.createTextNode(`${userData.name}: ${userData.email}: ${userData.phone}`));
   
-  
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'delete';
+      li.appendChild(deleteButton);
       // Add HTML
       // li.innerHTML = `<strong>${nameInput.value}</strong>e: ${emailInput.value}`;
   
@@ -46,4 +53,18 @@ function onSubmit(e) {
       phoneInput.value = '';
     }
   
+  }
+
+  // Remove item
+function removeItem(e) {
+    if (e.target.classList.contains('delete')) {
+      if (confirm('Are You Sure?')) {
+        var li = e.target.parentElement;
+        userList.removeChild(li);
+  
+        // Get the email from the list item's text content
+        const email = li.textContent.split(':')[1].trim();
+
+      }
+    }
   }
