@@ -96,3 +96,58 @@ function removeItem(e) {
     }
   }
 }
+
+// Edit item 
+userList.addEventListener('click', editItem);
+
+function editItem(e) {
+  if (e.target.classList.contains('edit')) {
+    var li = e.target.parentElement;
+    userList.removeChild(li);
+    const id = li.dataset.id;
+    axios
+      .get(`https://crudcrud.com/api/2f34aae9522f41b3b31b1b1d146233eb/appoinmentstore/${id}`)
+      .then((res) => {
+        const list = res.data;
+        dataFromCloud(list);
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+
+  }
+}
+
+// fetch data from cloud
+function dataFromCloud(list) {
+  if (list) {
+    nameInput.value = list.name;
+    emailInput.value = list.email;
+    phoneInput.value = list.phone;
+
+    // Show the edit form
+    document.querySelector('#edit-form');
+  }
+}
+
+//edit user details
+function onEditSubmit(e) {
+  e.preventDefault();
+
+  const editedUserData = {
+    name: nameInput.value,
+    email: emailInput.value,
+    phone: phoneInput.value,
+  };
+
+  axios
+    .put(`https://crudcrud.com/api/2f34aae9522f41b3b31b1b1d146233eb/appoinmentstore/${editUserId}`, editedUserData)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => console.log(err));
+
+    // Clear fields
+    nameInput.value = '';
+    emailInput.value = '';
+    phoneInput.value = '';
+}
